@@ -49,7 +49,7 @@ def median(nums):
 
     :param nums: a non-empty list of numbers.
     :returns: the median of the list.
-    
+
     :Example:
     >>> median([6, 5, 4, 3, 2]) == 4
     True
@@ -58,9 +58,26 @@ def median(nums):
     >>> median([1, 2, 3, 4]) == 2.5
     True
     """
-    
-    return ...
+    # sort nums in increasing order
+    for i in range(1, len(nums)):
+        key = nums[i]
+        j = i - 1
+        while j >= 0 and key < nums[j]:
+            nums[j+1] = nums[j]
+            j -= 1
+        nums[j+1] = key
 
+    # if  len odd return middle number
+    length = len(nums)
+    if length % 2 == 1:
+        middle = length // 2
+        return nums[middle]
+
+    # if len even return avg of middle numbers
+    middle1 = int(length/2) - 1
+    middle2 = middle1 + 1
+    avg = (nums[middle1] + nums[middle2]) / 2
+    return avg
 
 # ---------------------------------------------------------------------
 # Question # 2
@@ -82,8 +99,17 @@ def same_diff_ints(ints):
     >>> same_diff_ints([1,3,5,7,9])
     False
     """
+    # have two loops iterating through to check each number with every other number
+    for i in range(len(ints)-1):
+        for j in range(1, len(ints)-1):
+            if i == j:
+                j = j+1
+            space_dif = abs(j - i)
+            num_diff = abs(ints[i] - ints[j])
+            if (space_dif == num_diff):
+                return True
+    return False
 
-    return ...
 
 
 # ---------------------------------------------------------------------
@@ -107,8 +133,14 @@ def prefixes(s):
     'aaaaaraaroaaron'
     """
 
+    # one loop through all repeats of words and another than runs through each letter
+    length = len(s)
+    output = ''
+    for i in range(length):
+        for j in range(i + 1):
+            output = output + s[j]
 
-    return ...
+    return output
 
 
 # ---------------------------------------------------------------------
@@ -132,8 +164,16 @@ def evens_reversed(N):
     >>> evens_reversed(10)
     '10 08 06 04 02'
     """
-    
-    return ...
+
+    width = len(str(N))
+    output = ''
+    for i in reversed(range(2, N + 1, 2)):
+        output = output + str(i).zfill(width) + ' '
+
+    return output[0:len(output) - 1]
+
+
+
 
 
 # ---------------------------------------------------------------------
@@ -153,9 +193,15 @@ def last_chars(fh):
     >>> last_chars(open(fp))
     'hrg'
     """
-
-    return ...
-
+    lines = fh.readlines()
+    output = ""
+    for i in lines:
+        if i[-1] == "\n":
+            output = output + i[-2]
+        else:
+            output = output + i[-1]
+    fh.close()
+    return output
 
 # ---------------------------------------------------------------------
 # Question # 6
@@ -179,8 +225,10 @@ def arr_1(A):
     True
     """
 
-    return ...
-
+    index = np.arange(0,len(A),1)
+    index = np.sqrt(index)
+    print(index + A)
+    return index + A
 
 def arr_2(A):
     """
@@ -200,7 +248,8 @@ def arr_2(A):
     True
     """
 
-    return ...
+    bool_idx = (A % 16 == 0)
+    return bool_idx
 
 
 def arr_3(A):
@@ -224,8 +273,9 @@ def arr_3(A):
     True
     """
 
-    return ...
-
+    diff = np.diff(A)
+    rates = np.around(diff / A[0:-1], 2)
+    return rates
 
 def arr_4(A):
     """
@@ -273,7 +323,16 @@ def movie_stats(movies):
     True
     """
 
-    return ...
+    # number of years covered
+    try:
+        num_years = movies.shape[0] - 1
+    except:
+        print("No Year Data")
+
+    # add up all counts of movies per year
+    try:
+        tot_movies =
+
     
 
 # ---------------------------------------------------------------------
