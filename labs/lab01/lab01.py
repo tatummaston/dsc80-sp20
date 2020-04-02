@@ -330,11 +330,58 @@ def movie_stats(movies):
         print("No Year Data")
 
     # add up all counts of movies per year
-    try:
-        tot_movies =
-
+    try: 
+        num_movies = movies[['Number of Movies']]
+        num_movies = num_movies.sum()
+    except: 
+        print("Total Movies cannot be calculated")
     
+    # return year with fewest movies, if more than one return the earlieast year 
+    try:
+        min_amt = movies['Number of Movies'].min()
+        movies_min = movies.loc[movies['Number of Movies'] == min_amt]
+        if movies_min.shape[0] > 1:
+            yr_fewest_movies = movies_min['Year'].min()
+            
+        else:
+            yr_fewest_movies = movies_min.iloc[0,0]
+        
+    except: 
+        print('Cannot calculate year')
+        
+    #average the values in the Total Gross Column
+    try: 
+        avg_gross = movies['Total Gross'].sum() / (movies.shape[0]-1)
+    except:
+        print("Cannot calculate avg gross")
+        
+    # ???????? highest gross per movie ???
+    
+    # movie with second lowest grossing year 
+    try: movies.sort_values(['Year'], inplace=True, ascending= True)
 
+        yr_first_harry = movies.loc[movies['#1 Movie'].str.contains('Potter')].iloc[0,0]
+        bool_arr = movies['Year'] > yr_first_harry 
+        movies_after_harry = movies.loc[bool_arr]
+        avg_after_harry = np.around(movies_after_harry["Number of Movies"].sum() / movies_after_harry.shape[0],0)
+        movies.sort_values(['Total Gross'], inplace=True)
+        second_lowest = movies.iloc[1,0]
+    except: 
+        print("Cannot calculate second lowest")
+        
+    # avg amt of movies made in the years after harry potter was #1 
+    try: 
+        movies.sort_values(['Year'], inplace=True, ascending= True)
+        yr_first_harry = movies.loc[movies['#1 Movie'].str.contains('Potter')].iloc[0,0]
+        bool_arr = movies['Year'] > yr_first_harry 
+        movies_after_harry = movies.loc[bool_arr]
+        avg_after_harry = np.around(movies_after_harry["Number of Movies"].sum() / movies_after_harry.shape[0],0)
+    except: 
+        print("Cannot get average amount of movies")
+    
+    ser = pd.Series([num_years, tot_movies, yr_fewest_movies, avg_gross, highest_per_movie, second_lowest, avg_after_harry])
+    return ser 
+        
 # ---------------------------------------------------------------------
 # Question # 8
 # ---------------------------------------------------------------------
